@@ -7,7 +7,7 @@ const options = [
 ]
 
 export default function NewPet({ onSubmit, onCancel }) {
-  const [type, setType] = useState('')
+  const [type, setType] = useState('CAT')
   const [name, setName] = useState('')
 
   useEffect(() => {
@@ -17,6 +17,7 @@ export default function NewPet({ onSubmit, onCancel }) {
   const activeOption = options.find((o) => o.value === type)
 
   const submit = (e) => {
+    console.log('hello from submit')
     e.preventDefault()
     onSubmit({ name, type })
   }
@@ -33,7 +34,7 @@ export default function NewPet({ onSubmit, onCancel }) {
         <form onSubmit={submit}>
           <Select
             value={activeOption}
-            defaultValue={options[0]}
+            defaultValue={type}
             onChange={(e) => setType(e.value)}
             options={options}
           />
