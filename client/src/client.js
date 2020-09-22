@@ -7,7 +7,7 @@ import gql from 'graphql-tag'
  * Create a new apollo client and export as default
  */
 
-// Step 1. create link to server
+// Step 1. network interface to create link to the server
 const link = new HttpLink({ uri: 'https://rickandmortyapi.com/graphql/' })
 
 // Step 2. create a cache

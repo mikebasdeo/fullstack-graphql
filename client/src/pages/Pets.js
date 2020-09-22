@@ -17,6 +17,7 @@ export default function Pets() {
     setModal(false)
   }
 
+  // conditional react render
   if (modal) {
     return <NewPetModal onSubmit={onSubmit} onCancel={() => setModal(false)} />
   }
