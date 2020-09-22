@@ -5,8 +5,20 @@ import PetsList from '../components/PetsList'
 import NewPetModal from '../components/NewPetModal'
 import Loader from '../components/Loader'
 
+const ALL_PETS = gql`
+  query myQuery {
+    pets {
+      id
+      name
+      type
+      img
+    }
+  }
+`
+
 export default function Pets() {
   const [modal, setModal] = useState(false)
+  const { data, loading, error } = useQuery(ALL_PETS)
 
   useEffect(() => {
     console.log('hello from Pets')
@@ -15,6 +27,14 @@ export default function Pets() {
   const onSubmit = (input) => {
     // work here
     setModal(false)
+  }
+
+  if (loading) {
+    return <Loader />
+  }
+
+  if (error) {
+    return <p>Error</p>
   }
 
   // conditional react render
@@ -36,7 +56,7 @@ export default function Pets() {
         </div>
       </section>
       <section>
-        <PetsList />
+        <PetsList pets={data.pets} />
       </section>
     </div>
   )

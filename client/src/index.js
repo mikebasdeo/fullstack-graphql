@@ -7,9 +7,11 @@ import App from './components/App'
 import './index.css'
 
 const Root = () => (
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <ApolloProvider client={client}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </ApolloProvider>
 )
 
 ReactDOM.render(<Root />, document.getElementById('app'))
@@ -17,3 +19,7 @@ ReactDOM.render(<Root />, document.getElementById('app'))
 if (module.hot) {
   module.hot.accept()
 }
+
+
+
+
