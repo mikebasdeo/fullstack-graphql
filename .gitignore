@@ -64,3 +64,4 @@ typings/
 dist
 coverage
 .cache
+api/src/db/db.json
