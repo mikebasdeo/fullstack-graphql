@@ -30,22 +30,42 @@ const ADD_PET = gql`
 export default function Pets() {
   const [modal, setModal] = useState(false)
   const { data, loading, error } = useQuery(ALL_PETS)
+  const [addPet, newPet] = useMutation(ADD_PET, {
+    update(cache, { data: { addPet } }) {
+      const data = cache.readQuery({ query: ALL_PETS })
 
-  const [addPet, newPet] = useMutation(ADD_PET)
+      cache.writeQuery({
+        query: ALL_PETS,
+        data: { pets: [addPet, ...data.pets] },
+      })
+    },
+  })
 
   useEffect(() => {
     console.log('hello from Pets')
   }, [modal])
 
   const onSubmit = (input) => {
-    console.log(JSON.stringify(input))
+    console.log(`input${JSON.stringify(input, null, 2)}`)
     // const { name, type } = input
     // work here
     setModal(false)
-    addPet({ variables: { newPet: input } })
+    addPet({
+      variables: { newPet: input },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        addPet: {
+          __typename: 'Pet',
+          id: Math.floor(Math.random() * 1000) + '',
+          name: input.name,
+          type: input.type,
+          img: 'https://via.placeholder.com/300',
+        },
+      },
+    })
   }
 
-  if (loading || newPet.loading) {
+  if (loading) {
     return <Loader />
   }
 
